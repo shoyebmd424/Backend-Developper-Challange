@@ -15,13 +15,14 @@ const Home = () => {
   const [alldata, setAlldata] = useState([]);
 
   const CustomId = "toastId";
-  const { data, loading } = useFetch("/");
+  const { data, loading,reFetch } = useFetch("/");
   const HandleView = async (id) => {
     try {
       if (id) {
         const res = await Axios.get(`/${id}`);
         if (res && res.data.success) {
           setlist(res.data.message);
+       
         } else {
           toast.error(res.data.message);
         }
@@ -39,6 +40,7 @@ const Home = () => {
         const res = await Axios.get(`/${id}`);
         if (res && res.data.success) {
           setlist(res.data.message);
+          reFetch();
         } else {
           toast.error(res.data.message);
         }
@@ -59,6 +61,7 @@ const Home = () => {
       if (res && res.data.success) {
         setAlldata(alldata.filter((item) => item._id !== id));
         toast.success(res.data.message);
+        reFetch();
       } else {
         toast.error(res.data.message);
       }
@@ -66,6 +69,9 @@ const Home = () => {
       toast.error("something went wrong");
     }
   };
+  const reTake=()=>{
+    reFetch();
+  }
   useEffect(() => {
     setAlldata(data);
   }, [data]);
@@ -100,7 +106,7 @@ const Home = () => {
           </button>
         </div> */}
         <div className={open ? "" : "d-none"}>
-          <AddDetails open={open} updated={(e) => setOpen(e)} />
+          <AddDetails open={open} updated={(e) => setOpen(e)} onAdd={reTake} />
         </div>
 
         {loading ? (

@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import Axios from "../Axios";
 import React, { useState } from "react";
 
-const AddDetails = ({ open, updated }) => {
+const AddDetails = ({ open, updated,onAdd }) => {
   const [title, settitle] = useState("");
   const [author, setauthor] = useState("");
   const [summary, setsummary] = useState("");
@@ -16,6 +16,7 @@ const AddDetails = ({ open, updated }) => {
       });
       if (result.data && result.data.success) {
         toast.success(result.data.message);
+        onAdd();
       } else {
         toast.error(result.data.message);
       }
